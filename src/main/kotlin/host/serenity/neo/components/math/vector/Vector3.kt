@@ -1,5 +1,6 @@
 package host.serenity.neo.components.math.vector
 
+import host.serenity.neo.components.math.rotation.Rotation
 import host.serenity.neo.components.math.vector.util.magnitude
 
 data class Vector3(val x: Double, val y: Double, val z: Double) {
@@ -71,6 +72,33 @@ data class Vector3(val x: Double, val y: Double, val z: Double) {
         return Vector3(y * oZ - z * oY, z * oX - x * oZ, x * oY - y * oX)
     }
 
+    fun rotateYaw(yawDeg: Double): Vector3 {
+        val yaw = Math.toRadians(yawDeg)
+        val yawSin = Math.sin(yaw)
+        val yawCos = Math.cos(yaw)
+
+        return Vector3(x, y * yawCos - z * yawSin, y * yawSin + z * yawCos)
+    }
+
+    fun rotatePitch(pitchDeg: Double): Vector3 {
+        val pitch = Math.toRadians(pitchDeg)
+        val pitchSin = Math.sin(pitch)
+        val pitchCos = Math.cos(pitch)
+
+        return Vector3(x * pitchCos - y * pitchSin, x * pitchSin + y * pitchCos, z)
+    }
+
+    fun rotateRoll(rollDeg: Double): Vector3 {
+        val roll = Math.toRadians(rollDeg)
+        val rollSin = Math.sin(roll)
+        val rollCos = Math.cos(roll)
+
+        return Vector3(x, y * rollCos - z * rollSin, y * rollSin + z * rollCos)
+    }
+
+    fun rotate(rotation: Rotation): Vector3 {
+        return this.rotateYaw(rotation.yaw).rotatePitch(rotation.pitch).rotateRoll(rotation.roll)
+    }
 
     fun offset(x: Double, y: Double, z: Double) = Vector3(this.x + x, this.y + y, this.z + z)
 
