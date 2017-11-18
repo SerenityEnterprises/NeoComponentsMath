@@ -77,7 +77,7 @@ data class Vector3(val x: Double, val y: Double, val z: Double) {
         val yawSin = Math.sin(yaw)
         val yawCos = Math.cos(yaw)
 
-        return Vector3(x, y * yawCos - z * yawSin, y * yawSin + z * yawCos)
+        return Vector3(x * yawCos + z * yawSin, y, -x * yawSin + z * yawCos)
     }
 
     fun rotatePitch(pitchDeg: Double): Vector3 {
